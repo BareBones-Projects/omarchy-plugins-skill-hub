@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Omarchy Skill Hub Selection",
+  "version": "0.1.0",
+  "description": "Send selected webpage text to the local Skill Hub editor for review.",
+  "permissions": [
+    "contextMenus",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

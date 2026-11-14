@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# BareBones Projects, Designed by: Justin Levesque-Welsch
+set -euo pipefail
+URL="http://127.0.0.1:8765/"
+if [[ "${1:-}" == '--clipboard' ]]; then
+  if command -v wl-paste >/dev/null; then
+    TEXT="$(wl-paste --no-newline | head -c 18000)"
+  elif command -v xclip >/dev/null; then
+    TEXT="$(xclip -o -selection clipboard | head -c 18000)"
+  else TEXT=''; fi
+  if [[ -n "$TEXT" ]]; then
+    ENCODED="$(python -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.stdin.read()))' <<< "$TEXT")"
+    URL="${URL}?draft=${ENCODED}"
+  fi
+fi
+exec xdg-open "$URL"
