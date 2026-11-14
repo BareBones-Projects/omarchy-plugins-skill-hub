@@ -4,18 +4,6 @@
 
 Local-first skill manager for **Arch Linux / Omarchy (Hyprland)**. Skills appear in a searchable list with a green/red status dot on the right. Create skills from text, choose an agent or all agents, sync with explicit confirmation, and chat with a configured AI provider.
 
-## Install on Omarchy
-
-Requires Arch Linux with Python 3.11+, systemd user services, `xdg-open`, a browser, and optionally Wayland `wl-clipboard`. No root installation is needed.
-
-```bash
-unzip omarchy-skill-hub.zip
-cd omarchy-skill-hub
-bash bin/install.sh
-```
-
-Launch **Omarchy Skill Hub** from the Omarchy app launcher, or visit `http://127.0.0.1:8765/` on your machine.
-
 ## Features
 
 - Searchable skill inventory, individual enable/disable toggle with green/red dot, skill deletion, agent assignment dropdown, and copy/paste skill creation.
