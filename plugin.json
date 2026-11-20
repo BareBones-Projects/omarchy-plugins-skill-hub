@@ -1,9 +1,31 @@
 {
- "$schema":"https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
- "name":"omarchy-skill-hub",
- "version":"0.1.0",
- "description":"Local Omarchy Linux desktop skill manager with agent assignment, browser selection capture and AI provider chat.",
- "author":{"name":"BareBones Projects, Designed by: Justin Levesque-Welsch"},
- "keywords":["omarchy","arch-linux","skills","agents","desktop"],
- "extensions":{"com.openai":{"interface":{"displayName":"Omarchy Skill Hub","shortDescription":"Manage local agent skills","longDescription":"Create and organize skills across supported agents with a local Omarchy desktop manager, browser context action and provider chat.","developerName":"BareBones Projects","category":"Productivity","capabilities":["Interactive"],"defaultPrompt":"Help me organize and deploy my local Omarchy AI skills."}}}
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "omarchy-skill-hub",
+  "version": "0.3.0",
+  "description": "Local Omarchy Linux desktop skill manager with agent assignment, browser selection capture and AI provider chat.",
+  "author": {
+    "name": "BareBones Projects, Designed by: Justin Levesque-Welsch"
+  },
+  "keywords": [
+    "omarchy",
+    "arch-linux",
+    "skills",
+    "agents",
+    "desktop"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Omarchy Skill Hub",
+        "shortDescription": "Manage local agent skills",
+        "longDescription": "Create and organize skills across supported agents with a local Omarchy desktop manager, browser context action and provider chat.",
+        "developerName": "BareBones Projects",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": "Help me organize and deploy my local Omarchy AI skills."
+      }
+    }
+  }
 }

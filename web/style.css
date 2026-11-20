@@ -1,2 +1,76 @@
-/* BareBones Projects, Designed by: Justin Levesque-Welsch */
-:root{color-scheme:dark;font:15px system-ui,sans-serif;background:#0c1014;color:#e8edf2}*{box-sizing:border-box}body{margin:0}main{max-width:1080px;padding:36px 22px;margin:auto}header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:1px solid #28323a;padding-bottom:25px}small{color:#96a5b1;letter-spacing:2px}h1{font-size:clamp(2rem,5vw,3.8rem);margin:8px 0 2px;letter-spacing:-2px}.accent{color:#ff9b39}p{color:#99a8b5}.live{color:#7df0a1;font-size:12px;letter-spacing:1px}nav{display:flex;gap:8px;flex-wrap:wrap;padding:25px 0}button,select,input,textarea{font:inherit}button{background:#1a222b;border:1px solid #36424d;color:#dde6ef;padding:11px 15px;border-radius:8px;cursor:pointer}button:hover,.selected{border-color:#ff9b39}button.primary{background:#f19a42;color:#101417;border:0;font-weight:700}.panel{background:#121920;padding:23px;border:1px solid #2c3943;border-radius:12px}.hidden{display:none}.toolbar{display:flex;gap:12px;flex-wrap:wrap}input,textarea,select{display:block;width:100%;background:#0d1319;color:#edf3f8;border:1px solid #354450;border-radius:8px;padding:11px;margin:7px 0 15px}.toolbar input{flex:1;min-width:180px}.hint{font-size:13px;color:#8b9ca9}label{display:block;margin:15px 0}.skill{border-bottom:1px solid #27343e;padding:17px 0;display:flex;align-items:center;gap:12px;justify-content:space-between}.skill:last-child{border:0}.skill h3{margin:0 0 5px}.skill small{letter-spacing:0}.skill-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.dot{height:13px;width:13px;border-radius:50%;background:#fb6467;display:inline-block}.dot.on{background:#53e19c;box-shadow:0 0 12px #53e19c55}.skill button{padding:7px 10px;font-size:12px}.mini{color:#abb8c4}#messages{min-height:160px;max-height:360px;overflow:auto;background:#0c1116;padding:13px;margin:15px 0;border:1px solid #28353f;white-space:pre-wrap}.bubble{padding:11px;border-bottom:1px solid #29333d}footer{margin-top:22px;color:#d6a76c;font:12px monospace}h2{margin-top:0}@media(max-width:620px){.skill{align-items:flex-start;flex-direction:column}.skill-actions{width:100%}}
+/* BareBones Projects, Designed by: Justin Levesque-Welsch
+ * Omarchy Monochrome / pure grayscale, keyboard-friendly, no external assets.
+ */
+:root {
+  color-scheme: dark;
+  --bg: #080808;
+  --surface: #101010;
+  --raised: #171717;
+  --hover: #202020;
+  --line: #343434;
+  --line-bright: #777;
+  --text: #f5f5f5;
+  --muted: #a8a8a8;
+  --dim: #777;
+  --focus: #fff;
+  font-family: "JetBrains Mono", "CaskaydiaCove Nerd Font", "Fira Code", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+  font-synthesis: none;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { min-height: 100%; }
+body { margin: 0; min-height: 100vh; background: var(--bg); }
+body::before { content: ""; display: block; height: 2px; background: #eee; }
+main { max-width: 1170px; margin: 0 auto; padding: 35px 28px 32px; }
+header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; border-bottom: 1px solid var(--line); padding-bottom: 27px; }
+header > div { min-width: 0; }
+small { color: var(--muted); font-size: 11px; letter-spacing: .09em; }
+h1 { margin: 12px 0 9px; font-size: clamp(2rem, 5vw, 3.65rem); font-weight: 700; line-height: 1.05; letter-spacing: -.065em; }
+h1 .accent { color: #fff; }
+p { color: var(--muted); line-height: 1.6; }
+header p { margin: 0; }
+.live { flex-shrink: 0; padding: 7px 10px; color: #eee; background: var(--raised); border: 1px solid var(--line); font-size: 11px; letter-spacing: .09em; }
+nav { display: flex; flex-wrap: wrap; gap: 5px; margin: 0; padding: 23px 0 16px; }
+button, select, input, textarea { font: inherit; }
+button { background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 0; cursor: pointer; padding: 10px 13px; transition: background-color .12s, color .12s, border-color .12s; }
+button:hover { background: var(--hover); color: #fff; border-color: var(--line-bright); }
+button:active { background: #303030; }
+button.selected, nav button.selected { background: #f5f5f5; border-color: #f5f5f5; color: #080808; font-weight: 700; }
+button.primary { background: #f2f2f2; border: 1px solid #f2f2f2; color: #090909; font-weight: 700; }
+button.primary:hover { background: #cecece; border-color: #cecece; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.panel { background: var(--surface); padding: 24px; border: 1px solid var(--line); border-radius: 0; min-height: 280px; }
+.hidden { display: none; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+input, textarea, select { display: block; width: 100%; background: var(--bg); border: 1px solid #454545; border-radius: 0; color: #f1f1f1; padding: 11px 12px; margin: 7px 0 15px; }
+input::placeholder, textarea::placeholder { color: #777; }
+textarea { resize: vertical; line-height: 1.6; }
+.toolbar input { min-width: 220px; flex: 1; margin: 0; }
+.toolbar button { min-height: 41px; }
+label { display: block; margin: 15px 0; color: #e5e5e5; }
+h2 { margin: 0 0 17px; font-size: 17px; letter-spacing: -.025em; }
+h2:not(:first-child) { margin-top: 31px; }
+.hint { font-size: 11px; color: var(--muted); }
+#skills > .hint { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.skill { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; border-bottom: 1px solid #292929; }
+.skill:last-child { border-bottom: 0; }
+.skill h3 { color: #fff; font-size: 13px; font-weight: 600; margin: 0 0 7px; }
+.skill small { letter-spacing: 0; font-size: 11px; }
+.skill-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
+.skill-actions select { width: auto; max-width: 170px; margin: 0; padding: 7px 22px 7px 8px; font-size: 11px; }
+.skill button { font-size: 11px; padding: 8px 10px; }
+/* Status is intentionally redundant: shape + fill + accessible label, never color alone. */
+.dot { order: 99; display: inline-grid; place-items: center; width: 18px; height: 18px; flex-shrink: 0; margin-left: 8px; border: 1px solid #777; border-radius: 50%; background: #080808; color: #eee; }
+.dot::after { content: "×"; font-family: monospace; font-weight: 700; font-size: 12px; line-height: 1; }
+.dot.on { background: #f5f5f5; color: #080808; border-color: #f5f5f5; box-shadow: none; }
+.dot.on::after { content: "✓"; }
+.mini { color: var(--muted); }
+#messages { min-height: 160px; max-height: 360px; overflow: auto; background: var(--bg); border: 1px solid var(--line); padding: 13px; margin: 16px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bubble { padding: 12px 7px; border-bottom: 1px solid var(--line); }
+.bubble:last-child { border-bottom: 0; }
+footer { margin-top: 20px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+::selection { background: #fff; color: #000; }
+@media (max-width: 710px) { main { padding: 24px 15px; } header { flex-direction: column; gap: 15px; } .panel { padding: 16px; } .skill { align-items: flex-start; flex-direction: column; } .skill-actions { width: 100%; justify-content: flex-start; } .dot { margin-left: auto; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }

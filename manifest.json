@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "barebones.skill-hub",
   "name": "Skill Hub",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "BareBones Projects / Justin Levesque-Welsch",
-  "description": "Monochrome launcher for a local-first AI skill manager, with per-agent assignment and provider chat.",
+  "description": "Native Omarchy Quattro dropdown for local AI skills, MCP catalogs, provider chat, and per-user config.",
   "kinds": [
     "bar-widget"
   ],
   "entryPoints": {
-    "barWidget": "Widget.qml"
+    "barWidget": "BarWidget.qml"
   },
   "barWidget": {
     "displayName": "Skill Hub",

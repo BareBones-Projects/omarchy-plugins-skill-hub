@@ -21,6 +21,8 @@ jobs:
           python -m compileall -q app
       - name: Check QML dependencies (static)
         run: |
-          grep -q 'import QtQuick' Widget.qml
-          grep -q 'Commons.Color' Widget.qml
-          grep -q 'Qt.openUrlExternally' Widget.qml
+          grep -q 'import QtQuick' BarWidget.qml
+          grep -q 'KeyboardPanel' Panel.qml
+          grep -q 'Commons.Color' Panel.qml
+          ! grep -q 'openUrlExternally' BarWidget.qml
+          ! grep -q 'openUrlExternally' Panel.qml
