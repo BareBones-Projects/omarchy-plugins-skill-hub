@@ -1,47 +1,74 @@
-# // Omarchy Skill Hub
+# // OMARCHY SKILL HUB v0.3.1
 
-**BareBones Projects, Designed by: Justin Levesque-Welsch**
+**BareBones Projects • Designed by Justin Levesque-Welsch**
 
-Local-first skill manager for **Arch Linux / Omarchy (Hyprland)**. Skills appear in a searchable list with a green/red status dot on the right. Create skills from text, choose an agent or all agents, sync with explicit confirmation, and chat with a configured AI provider.
+Native popup for **Omarchy Quattro** (Quickshell) with Skills, MCP, System AI, and Configuration. Clicking `[ SKILLS ]` in the Omarchy bar opens a `KeyboardPanel` anchored beneath the bar. **No browser launch or localhost web service is needed.** The App Menu includes the matching monochrome SVG icon and desktop entry.
 
-## Features
+## Install from the review branch
 
-- Searchable skill inventory, individual enable/disable toggle with green/red dot, skill deletion, agent assignment dropdown, and copy/paste skill creation.
-- Explicit sync into `~/.claude/skills`, `~/.agents/skills` (Codex), `~/.config/opencode/skills`, and `~/.gemini/skills`. Existing unmanaged files are never overwritten.
-- Browser right-click on selected text: install the unpacked Chromium MV3 extension from `extension/` via `chrome://extensions` > Developer mode > Load unpacked. It opens a review editor; it does not automatically execute or save selected content. Firefox requires separate WebExtension packaging.
-- Desktop launcher action **Create Skill from Clipboard**. Requires `wl-paste` (install `wl-clipboard`) or `xclip`. This is a clipboard-based system action, not a universal right-click menu installed across every Linux desktop application.
-- AI Chat tab for local Ollama (`http://127.0.0.1:11434`) or API providers OpenAI/Anthropic. Configure provider and model in Settings.
-- Ready for custom Waybar/Omarchy panel entries: run `omarchy-skill-hub` as the command for a clickable launcher. Waybar changes are **not** applied automatically.
-
-## API credentials
-
-For OpenAI or Anthropic API access, create `~/.config/omarchy-skill-hub/provider.env` containing `OPENAI_API_KEY=...` or `ANTHROPIC_API_KEY=...` and run:
+Until PR #2 is merged, install using the `release/quattro-skill-hub-v0.2.0` branch only after it has been updated with this version. Alternatively, download the v0.3.1 ZIP, unpack it, and invoke the local installer below.
 
 ```bash
-chmod 600 ~/.config/omarchy-skill-hub/provider.env
-systemctl --user restart omarchy-skill-hub.service
+omarchy plugin add https://github.com/BareBones-Projects/omarchy-plugins-skill-hub.git --enable
+bash ~/.config/omarchy/plugins/barebones.skill-hub/bin/install.sh
+omarchy plugin validate ~/.config/omarchy/plugins/barebones.skill-hub
+omarchy-shell shell summon barebones.skill-hub '{}'
 ```
 
-This file is never included in the archive. Ollama requires a separately running local Ollama instance with the selected model installed.
+Omarchy plugins **do not execute installers automatically**. The separate `install.sh` copies the local Python backend and the `.desktop` entry into user-owned paths. The plugin alone provides the bar UI; the backend adds CLI operations. No root access, browser, embedded web server, global AI config overwrite, or standalone Quickshell process is used.
 
-## Security and limitations
+## Native popup tabs
 
-- Local HTTP service binds only to `127.0.0.1:8765`. No remote access or external server is provided. Other same-user processes can access the loopback API; do not run this on an untrusted multi-user desktop.
-- Sync prompts for explicit approval, only overwrites hub-owned `SKILL.md` files, and does not grant arbitrary system-root access. **System-wide** here means assigning across all configured per-user agents, not installing to `/usr/share` or every program on the OS.
-- Provider requests send chat text to the selected provider. Browser-selected text is inserted in an editor for review.
-- Supported agents may need restart or manual refresh to load new skills. Assignment does not verify agent activation.
-- Omarchy menu bar / Waybar launcher integration is manual and depends on your current config; the .desktop app appears in standard application launchers.
-- Not a ChatGPT web-to-local filesystem bridge. The private ChatGPT plugin bundles workflow guidance, while the desktop app performs local file operations.
+- **SKILLS:** Search/filter, create skill, toggle active state, assign to Codex/Claude Code/OpenCode/Gemini CLI or All, and explicitly sync to agent folders. Unmanaged SKILL.md files are never overwritten.
+- **MCP:** Display manually configured MCP servers and add stdio or HTTPS MCP server definitions to the Skill Hub catalog. **Saving a catalog entry does not start a server or register it with an agent.** MCP activation in each agent is a separate step.
+- **AI:** Chat with the configured Ollama, OpenAI or Anthropic model. Cloud providers send text to their selected APIs. API credentials aren't shown in the UI.
+- **CONFIG:** Auto-adapt to Omarchy's active `Commons.Color` theme, and configure the default AI provider and model. Only Omarchy theme colors are rendered, avoiding global shell theme modifications.
 
-## Development
+## File layout
+
+| Path | Purpose |
+| --- | --- |
+| `~/.config/omarchy/plugins/barebones.skill-hub/` | Native Quattro plugin (managed by `omarchy plugin`) |
+| `~/.local/share/omarchy-skill-hub/runtime/app/` | Installed local Python logic |
+| `~/.local/bin/omarchy-skill-hub` | App Menu command to summon Quickshell panel |
+| `~/.local/bin/omarchy-skill-hubctl` | Local CLI bridge for panel actions |
+| `~/.local/share/applications/omarchy-skill-hub.desktop` | Omarchy apps launcher |
+| `~/.local/share/icons/hicolor/scalable/apps/omarchy-skill-hub.svg` | Black/white launcher icon |
+| `~/.config/omarchy-skill-hub/config.json` | Local theme/provider preference |
+| `~/.config/omarchy-skill-hub/mcp.json` | Skill Hub MCP catalog (mode 0600) |
+| `~/.config/omarchy-skill-hub/provider.env` | API keys; **chmod 600** |
+| `~/.local/share/omarchy-skill-hub/skills.sqlite3` | User skills and assignments |
+
+For provider API keys, create the file manually:
+
+```bash
+mkdir -p ~/.config/omarchy-skill-hub
+chmod 700 ~/.config/omarchy-skill-hub
+printf 'OPENAI_API_KEY=your-api-key\n' > ~/.config/omarchy-skill-hub/provider.env
+chmod 600 ~/.config/omarchy-skill-hub/provider.env
+```
+
+Do not commit credentials. Local Ollama requires a running Ollama service and a pulled model.
+
+## Testing
 
 ```bash
 python -m unittest discover -s tests -v
-python -m app.server
+bash -n bin/*.sh bin/omarchy-skill-hub bin/omarchy-skill-hubctl
+python -m compileall -q app
+omarchy plugin validate ~/.config/omarchy/plugins/barebones.skill-hub
+qmllint -I "$OMARCHY_PATH/shell" BarWidget.qml Panel.qml
 ```
 
-Remove service and launcher with `bash bin/uninstall.sh`. App data, installed agent skills, and keys are retained intentionally.
+The first three commands can run in ordinary Linux CI. The last two require **Omarchy Quattro** and its imports. Test opening and closing via bar clicks, Escape, `omarchy-shell shell summon`, and app-menu launcher before publication.
 
-## License
+## Uninstall
 
-MIT. Copyright (c) 2026 BareBones Projects. Designed by: Justin Levesque-Welsch.
+```bash
+bash ~/.config/omarchy/plugins/barebones.skill-hub/bin/uninstall.sh
+omarchy plugin remove barebones.skill-hub
+```
+
+User skills, config, MCP catalog, and API secrets are intentionally retained. The legacy localhost web service is disabled and its user unit removed by the uninstaller, if present.
+
+**License:** MIT.

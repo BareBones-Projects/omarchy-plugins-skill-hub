@@ -1,0 +1,28 @@
+name: Verify Skill Hub
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python unit and isolated installation tests
+        run: python -m unittest discover -s tests -v
+      - name: Manifest and shell checks
+        run: |
+          python -m json.tool manifest.json >/dev/null
+          bash -n bin/*.sh bin/omarchy-skill-hub
+          python -m compileall -q app
+      - name: Check QML dependencies (static)
+        run: |
+          grep -q 'import QtQuick' BarWidget.qml
+          grep -q 'KeyboardPanel' Panel.qml
+          grep -q 'Commons.Color' Panel.qml
+          ! grep -q 'openUrlExternally' BarWidget.qml
+          ! grep -q 'openUrlExternally' Panel.qml

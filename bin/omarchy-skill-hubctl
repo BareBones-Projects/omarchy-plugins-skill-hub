@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Native Quattro bridge, run Python from the user-owned installed runtime.
+set -euo pipefail
+DEST="${XDG_DATA_HOME:-$HOME/.local/share}/omarchy-skill-hub/runtime"
+if [[ ! -f "$DEST/app/native_cli.py" ]]; then
+  echo '{"error":"Skill Hub backend is not installed"}' >&2
+  exit 1
+fi
+cd "$DEST"
+exec /usr/bin/python -m app.native_cli "$@"
