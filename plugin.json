@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "omarchy-skill-hub",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Local Omarchy Linux desktop skill manager with agent assignment, browser selection capture and AI provider chat.",
   "author": {
     "name": "BareBones Projects, Designed by: Justin Levesque-Welsch"

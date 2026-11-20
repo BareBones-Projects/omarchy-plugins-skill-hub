@@ -24,6 +24,7 @@ Panel {
     property string chatReply: ""
     property bool busy: false
     property string lastAction: ""
+    property string pendingPayload: ""
     readonly property string bridge: Quickshell.env("HOME") + "/.local/bin/omarchy-skill-hubctl"
     readonly property color ink: Commons.Color.foreground
     readonly property color paper: Commons.Color.background
@@ -40,7 +41,8 @@ Panel {
         busy = true
         lastAction = args[0]
         root.feedback = "Working..."
-        cli.command = [bridge].concat(args)
+        pendingPayload = JSON.stringify({"args": args})
+        cli.command = [bridge, "rpc"]
         cli.running = true
     }
     function refresh() { request(["skills"]) }
@@ -71,6 +73,8 @@ Panel {
     }
     Process {
         id: cli
+        stdinEnabled: true
+        onStarted: cli.write(root.pendingPayload + "\n")
         stdout: StdioCollector { id: collector; waitForEnd: true }
         onExited: function(code) { root.handleResult(code) }
     }
@@ -80,11 +84,12 @@ Panel {
         owner: root.hostWidget || root
         bar: root.bar
         open: root.opened
-        focusTarget: catcher
+        focusTarget: popup.loadedContent
         contentWidth: popup.fittedContentWidth(Commons.Style.space(365))
-        contentHeight: popup.fittedContentHeight(content.implicitHeight)
+        contentHeight: popup.fittedContentHeight(popup.loadedContent ? popup.loadedContent.contentHeightHint : Commons.Style.space(340))
         content: PanelKeyCatcher {
             id: catcher
+            property alias contentHeightHint: content.implicitHeight
             anchors.fill: parent
             onCloseRequested: root.close()
             onTabRequested: function(direction) { root.switchPanel(direction) }

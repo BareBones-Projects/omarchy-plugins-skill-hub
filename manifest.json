@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "barebones.skill-hub",
   "name": "Skill Hub",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "BareBones Projects / Justin Levesque-Welsch",
   "description": "Native Omarchy Quattro dropdown for local AI skills, MCP catalogs, provider chat, and per-user config.",
   "kinds": [

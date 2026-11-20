@@ -3,7 +3,7 @@ name: omarchy-skill-hub
 description: Use when installing, configuring or troubleshooting the native Omarchy Quattro Skill Hub dropdown and its local AI skills, MCP catalog, system AI provider, or app menu integration.
 ---
 
-# Omarchy Skill Hub v0.3.0
+# Omarchy Skill Hub v0.3.1
 
 This package is a **local** Quickshell `bar-widget` for the Omarchy Quattro desktop. It does not provide browser-to-machine remote control. Install the plugin with `omarchy plugin add <GitHub repository> --enable`, then run `bash ~/.config/omarchy/plugins/barebones.skill-hub/bin/install.sh` locally to install its Python CLI bridge and desktop application icon.
 

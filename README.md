@@ -1,4 +1,4 @@
-# // OMARCHY SKILL HUB v0.3.0
+# // OMARCHY SKILL HUB v0.3.1
 
 **BareBones Projects • Designed by Justin Levesque-Welsch**
 
@@ -6,7 +6,7 @@ Native popup for **Omarchy Quattro** (Quickshell) with Skills, MCP, System AI, a
 
 ## Install from the review branch
 
-Until PR #2 is merged, install using the `release/quattro-skill-hub-v0.2.0` branch only after it has been updated with this version. Alternatively, download the v0.3.0 ZIP, unpack it, and invoke the local installer below.
+Until PR #2 is merged, install using the `release/quattro-skill-hub-v0.2.0` branch only after it has been updated with this version. Alternatively, download the v0.3.1 ZIP, unpack it, and invoke the local installer below.
 
 ```bash
 omarchy plugin add https://github.com/BareBones-Projects/omarchy-plugins-skill-hub.git --enable

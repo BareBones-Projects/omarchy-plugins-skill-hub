@@ -44,6 +44,13 @@ def load_provider_env():
 def main(argv):
  if not argv:raise ValueError('A command is required')
  action,*args=argv
+ if action=='rpc':
+  envelope=json.loads(sys.stdin.readline(256000))
+  params=envelope.get('args') if isinstance(envelope,dict) else None
+  if not isinstance(params,list) or not params or params[0]=='rpc' or len(params)>6 or any(not isinstance(x,str) for x in params):
+   raise ValueError('Invalid RPC arguments')
+  if len(json.dumps(params))>210000:raise ValueError('RPC request too large')
+  return main(params)
  if action=='skills': result={'skills':[{k:s[k] for k in ('id','title','slug','enabled','agents')} for s in core.list_skills()]}
  elif action=='status':result={'agents':list(core.KNOWN_AGENTS),'provider':core.get_setting('provider','ollama'),'model':core.get_setting('model','llama3.2'),'config':config()}
  elif action=='mcp':result=mcp_list()

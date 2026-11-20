@@ -9,8 +9,9 @@ class MarketplaceTest(unittest.TestCase):
         self.assertIn('bar-widget',m['kinds'])
         self.assertTrue((ROOT/m['entryPoints']['barWidget']).is_file())
         self.assertEqual(m['barWidget']['defaultSection'],'right')
-        qml=(ROOT/'Widget.qml').read_text()
-        self.assertIn('Qt.openUrlExternally',qml)
+        qml=(ROOT/'BarWidget.qml').read_text()
+        self.assertIn('root.toggle()',qml)
+        self.assertNotIn('openUrlExternally',qml)
     def test_user_install_and_remove_are_isolated(self):
         with tempfile.TemporaryDirectory() as tmp:
             home=Path(tmp)/'home';home.mkdir()
