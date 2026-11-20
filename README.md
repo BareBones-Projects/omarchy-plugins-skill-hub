@@ -1,47 +1,50 @@
-# // Omarchy Skill Hub
+# // OMARCHY SKILL HUB
+**BareBones Projects | Designed by Justin Levesque-Welsch**
 
-**BareBones Projects, Designed by: Justin Levesque-Welsch**
+Monochrome local-first manager for AI skills on Arch Linux / Omarchy. v0.2.0 provides a native Omarchy Quattro bar-widget with a separate Python local backend. It does not modify the shell theme, Waybar config, or user data.
 
-Local-first skill manager for **Arch Linux / Omarchy (Hyprland)**. Skills appear in a searchable list with a green/red status dot on the right. Create skills from text, choose an agent or all agents, sync with explicit confirmation, and chat with a configured AI provider.
-
-## Features
-
-- Searchable skill inventory, individual enable/disable toggle with green/red dot, skill deletion, agent assignment dropdown, and copy/paste skill creation.
-- Explicit sync into `~/.claude/skills`, `~/.agents/skills` (Codex), `~/.config/opencode/skills`, and `~/.gemini/skills`. Existing unmanaged files are never overwritten.
-- Browser right-click on selected text: install the unpacked Chromium MV3 extension from `extension/` via `chrome://extensions` > Developer mode > Load unpacked. It opens a review editor; it does not automatically execute or save selected content. Firefox requires separate WebExtension packaging.
-- Desktop launcher action **Create Skill from Clipboard**. Requires `wl-paste` (install `wl-clipboard`) or `xclip`. This is a clipboard-based system action, not a universal right-click menu installed across every Linux desktop application.
-- AI Chat tab for local Ollama (`http://127.0.0.1:11434`) or API providers OpenAI/Anthropic. Configure provider and model in Settings.
-- Ready for custom Waybar/Omarchy panel entries: run `omarchy-skill-hub` as the command for a clickable launcher. Waybar changes are **not** applied automatically.
-
-## API credentials
-
-For OpenAI or Anthropic API access, create `~/.config/omarchy-skill-hub/provider.env` containing `OPENAI_API_KEY=...` or `ANTHROPIC_API_KEY=...` and run:
+## Install on Omarchy Quattro
+The marketplace install only clones shell plugin code; it **does not run install hooks**. First install the widget:
 
 ```bash
-chmod 600 ~/.config/omarchy-skill-hub/provider.env
-systemctl --user restart omarchy-skill-hub.service
+omarchy plugin add https://github.com/BareBones-Projects/omarchy-plugins-skill-hub.git --enable
 ```
 
-This file is never included in the archive. Ollama requires a separately running local Ollama instance with the selected model installed.
-
-## Security and limitations
-
-- Local HTTP service binds only to `127.0.0.1:8765`. No remote access or external server is provided. Other same-user processes can access the loopback API; do not run this on an untrusted multi-user desktop.
-- Sync prompts for explicit approval, only overwrites hub-owned `SKILL.md` files, and does not grant arbitrary system-root access. **System-wide** here means assigning across all configured per-user agents, not installing to `/usr/share` or every program on the OS.
-- Provider requests send chat text to the selected provider. Browser-selected text is inserted in an editor for review.
-- Supported agents may need restart or manual refresh to load new skills. Assignment does not verify agent activation.
-- Omarchy menu bar / Waybar launcher integration is manual and depends on your current config; the .desktop app appears in standard application launchers.
-- Not a ChatGPT web-to-local filesystem bridge. The private ChatGPT plugin bundles workflow guidance, while the desktop app performs local file operations.
-
-## Development
+Then install the local backend from the checkout:
 
 ```bash
+bash ~/.config/omarchy/plugins/barebones.skill-hub/bin/install.sh
+```
+
+The right-side **[ SKILLS ]** bar widget opens http://127.0.0.1:8765/. You may also open the desktop launcher **Omarchy Skill Hub**.
+
+## Functions
+- Search and create Markdown skills; enable/disable, delete and assign them to all or selected supported agents.
+- Explicit sync to per-user Codex, Claude, OpenCode and Gemini skill folders. Unmanaged skills are never overwritten.
+- Ollama, OpenAI and Anthropic chat tab. Configure provider in the app.
+- Chromium extension in `extension/` supports selected-text review through browser context menu. Load unpacked manually.
+- Clipboard desktop shortcut requires wl-clipboard or xclip.
+
+## Validate
+```bash
+omarchy plugin validate ~/.config/omarchy/plugins/barebones.skill-hub
+systemctl --user status omarchy-skill-hub.service
+curl --fail http://127.0.0.1:8765/api/status
 python -m unittest discover -s tests -v
-python -m app.server
 ```
+Marketplace validation and a live Quattro bar-click test must run on an Omarchy machine. CI tests the Python code, installer in an isolated HOME, JSON manifest and shell scripts; it cannot claim real desktop testing.
 
-Remove service and launcher with `bash bin/uninstall.sh`. App data, installed agent skills, and keys are retained intentionally.
+## Remove
+```bash
+bash ~/.config/omarchy/plugins/barebones.skill-hub/bin/uninstall.sh
+omarchy plugin remove barebones.skill-hub
+```
+These commands preserve application data, your provider secrets, and installed agent skills.
 
-## License
+## Provider keys
+Put `OPENAI_API_KEY=...` or `ANTHROPIC_API_KEY=...` in `~/.config/omarchy-skill-hub/provider.env`, run `chmod 600` on it, and restart the user service. Ollama needs a separately running model.
 
-MIT. Copyright (c) 2026 BareBones Projects. Designed by: Justin Levesque-Welsch.
+## Safety
+The backend only listens on 127.0.0.1:8765. This isn't a remote ChatGPT-to-local filesystem bridge, and same-user local processes can reach it. Agent assignments require explicit sync and agent restart may be necessary. Never treat marketplace listing or static checks as a security audit. Read the source before enabling an unsandboxed shell plugin.
+
+License: MIT.

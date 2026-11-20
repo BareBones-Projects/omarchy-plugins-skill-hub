@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "barebones.skill-hub",
+  "name": "Skill Hub",
+  "version": "0.2.0",
+  "author": "BareBones Projects / Justin Levesque-Welsch",
+  "description": "Monochrome launcher for a local-first AI skill manager, with per-agent assignment and provider chat.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Widget.qml"
+  },
+  "barWidget": {
+    "displayName": "Skill Hub",
+    "category": "Utilities",
+    "defaultSection": "right",
+    "allowMultiple": false
+  }
+}
